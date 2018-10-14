@@ -37,11 +37,49 @@ enum S
     B = 30
 };
 vector<vector<double>> dealer_score_probs(10, vector<double>(6));
+double get_average_reward(int player_hand, int dealer_hand)
+{
+    if (player_hand > 21)
+    {
+        return -1;
+    }
 
+    if (player_hand < 17)
+    {
+        return 2 * dealer_score_probs[dealer_hand - 1][5] - 1;
+    }
+
+    switch (player_hand)
+    {
+    case 17:
+    {
+        return dealer_score_probs[dealer_hand - 1][5] - (dealer_score_probs[dealer_hand - 1][1] + dealer_score_probs[dealer_hand - 1][2] + dealer_score_probs[dealer_hand - 1][3] + dealer_score_probs[dealer_hand - 1][4]);
+    }
+    case 18:
+    {
+        return (dealer_score_probs[dealer_hand - 1][0] + dealer_score_probs[dealer_hand - 1][5]) - (dealer_score_probs[dealer_hand - 1][2] + dealer_score_probs[dealer_hand - 1][3] + dealer_score_probs[dealer_hand - 1][4]);
+    }
+
+    case 19:
+    {
+        return (dealer_score_probs[dealer_hand - 1][0] + dealer_score_probs[dealer_hand - 1][1] + dealer_score_probs[dealer_hand - 1][5]) - (dealer_score_probs[dealer_hand - 1][3] + dealer_score_probs[dealer_hand - 1][4]);
+    }
+    case 20:
+    {
+        return (dealer_score_probs[dealer_hand - 1][0] + dealer_score_probs[dealer_hand - 1][1] + dealer_score_probs[dealer_hand - 1][2] + dealer_score_probs[dealer_hand - 1][5]) - (dealer_score_probs[dealer_hand - 1][4]);
+    }
+    case 21:
+    {
+        return 1.5 * (1 - dealer_score_probs[dealer_hand - 1][4]);
+    }
+    default:
+        cout << "Unknown";
+    }
+}
 int main(int argc, char const *argv[])
 {
-
-    double p = 0.4;
+    string p_ = argv[1];
+    double p = stod(p_);
     double q = (1 - p) / 9;
     vector<vector<int>> card_transitions{{S12, S13, S14, S15, S16, S17, S18, S19, S20, _21}, {S13, _4, _5, _6, _7, _8, _9, _10, _11, _12}, {S14, _5, _6, _7, _8, _9, _10, _11, _12, _13}, {S15, _6, _7, _8, _9, _10, _11, _12, _13, _14}, {S16, _7, _8, _9, _10, _11, _12, _13, _14, _15}, {S17, _8, _9, _10, _11, _12, _13, _14, _15, _16}, {S18, _9, _10, _11, _12, _13, _14, _15, _16, _17}, {S19, _10, _11, _12, _13, _14, _15, _16, _17, _18}, {S20, _11, _12, _13, _14, _15, _16, _17, _18, _19}, {_21, _12, _13, _14, _15, _16, _17, _18, _19, _20}, {_12, _13, _14, _15, _16, _17, _18, _19, _20, _21}, {_13, _14, _15, _16, _17, _18, _19, _20, _21, B}, {_14, _15, _16, _17, _18, _19, _20, _21, B, B}, {_15, _16, _17, _18, _19, _20, _21, B, B, B}, {_16, _17, _18, _19, _20, _21, B, B, B, B}, {_17, _18, _19, _20, _21, B, B, B, B, B}, {_18, _19, _20, _21, B, B, B, B, B, B}, {S13, S14, S15, S16, S17, S18, S19, S20, _21, _12}, {S14, S15, S16, S17, S18, S19, S20, _21, _12, _13}, {S15, S16, S17, S18, S19, S20, _21, _12, _13, _14}, {S16, S17, S18, S19, S20, _21, _12, _13, _14, _15}, {S17, S18, S19, S20, _21, _12, _13, _14, _15, _16}};
 
@@ -119,51 +157,15 @@ int main(int argc, char const *argv[])
     //     }
     //     cout << endl;
     // }
+    cout.precision(2);
+    for (int i = 4; i < 23; i++)
+    {
+        for (int j = 1; j < 11; j++)
+        {
+            cout << get_average_reward(i, j) << "\t";
+        }
+        cout << endl;
+    }
 
     return 0;
-}
-
-double get_average_reward(int player_hand, int dealer_hand)
-{
-    if (player_hand > 21)
-    {
-        return -1;
-    }
-
-    if (player_hand < 17)
-    {
-        return 2 * dealer_score_probs[dealer_hand - 1][5] - 1;
-    }
-
-    switch (player_hand)
-    {
-    case 17:
-    {
-        return dealer_score_probs[dealer_hand - 1][5] - (dealer_score_probs[dealer_hand - 1][1] + dealer_score_probs[dealer_hand - 1][2] + dealer_score_probs[dealer_hand - 1][3] + dealer_score_probs[dealer_hand - 1][4]);
-    }
-
-    case 18:
-    {
-        return (dealer_score_probs[dealer_hand - 1][0] + dealer_score_probs[dealer_hand - 1][5]) - (dealer_score_probs[dealer_hand - 1][2] + dealer_score_probs[dealer_hand - 1][3] + dealer_score_probs[dealer_hand - 1][4]);
-    }
-
-    break;
-    case 19:
-    {
-        return (dealer_score_probs[dealer_hand - 1][0] + dealer_score_probs[dealer_hand - 1][1] + dealer_score_probs[dealer_hand - 1][5]) - (dealer_score_probs[dealer_hand - 1][3] + dealer_score_probs[dealer_hand - 1][4]);
-    }
-    break;
-    case 20:
-    {
-        return (dealer_score_probs[dealer_hand - 1][0] + dealer_score_probs[dealer_hand - 1][1] + dealer_score_probs[dealer_hand - 1][2] + dealer_score_probs[dealer_hand - 1][5]) - (dealer_score_probs[dealer_hand - 1][4]);
-    }
-    break;
-    case 21:
-    {
-        return 1.5 * (1 - dealer_score_probs[dealer_hand - 1][4]);
-    }
-    break;
-    default:
-        cout << "Unknown";
-    }
 }

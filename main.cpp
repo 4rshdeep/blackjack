@@ -642,17 +642,17 @@ int main(int argc, char const *argv[])
                     best_score = split_score;
                     best_policy = 'P';
                 }
-
-                if (stand_score >= best_score)
-                {
-                    best_score = stand_score;
-                    best_policy = 'S';
-                }
                 if (double_score >= best_score)
                 {
                     best_score = double_score;
                     best_policy = 'D';
                 }
+                if (stand_score >= best_score)
+                {
+                    best_score = stand_score;
+                    best_policy = 'S';
+                }
+
                 new_scores[i] = best_score;
                 max_error1 = max(max_error1, abs(scores[i] - new_scores[i]));
                 policy[i] = best_policy;

@@ -95,6 +95,7 @@ enum States
     F14,
     F15,
     F16,
+    F17,
     F18,
     F19,
     F20,
@@ -104,6 +105,7 @@ vector<vector<double>> dealer_score_probs(10, vector<double>());
 
 double get_average_reward(string player_hand_str, int dealer_hand)
 {
+    // cout<<player_hand_str<<endl;
     dealer_hand--;
     double temp = 0;
 
@@ -596,7 +598,6 @@ int main(int argc, char const *argv[])
             double max_error1 = 0;
             for (int i = 0; i <= F21; i++)
             {
-
                 if (i >= F4 && i <= F21)
                 {
                     new_scores[i] = get_average_reward(to_string(i - F4 + 4), deal);

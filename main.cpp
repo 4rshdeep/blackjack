@@ -510,7 +510,7 @@ int main(int argc, char const *argv[])
             }
         }
         transition_probabilities = new_transition_probabilities;
-    } while (max_error > 0.00001);
+    } while (max_error > 0.0000001);
 
     cout.precision(2);
     // for (int i = 0; i < transition_probabilities.size(); i++)
@@ -652,6 +652,11 @@ int main(int argc, char const *argv[])
                     best_score = stand_score;
                     best_policy = 'S';
                 }
+                // if (hit_score >= best_score)
+                // {
+                //     best_score = hit_score;
+                //     best_policy = 'H';
+                // }
 
                 new_scores[i] = best_score;
                 max_error1 = max(max_error1, abs(scores[i] - new_scores[i]));
@@ -659,7 +664,7 @@ int main(int argc, char const *argv[])
             }
             scores = new_scores;
 
-            if (max_error1 < 0.00001 || max_error1 > 1000)
+            if (max_error1 < 0.0000001 || max_error1 > 10000)
             {
                 policies.push_back(policy);
                 break;
@@ -675,7 +680,7 @@ int main(int argc, char const *argv[])
         myfile << i - _5_ + 5 << '\t';
         for (int c = 1; c < 10; c++)
             myfile << policies[c][i] << ' ';
-        myfile << policies[0][i] << ' ';
+        myfile << policies[0][i];
         myfile << endl;
     }
     for (int i = S13; i <= S20; i++)
@@ -683,7 +688,7 @@ int main(int argc, char const *argv[])
         myfile << 'A' << i - S13 + 2 << '\t';
         for (int c = 1; c < 10; c++)
             myfile << policies[c][i] << ' ';
-        myfile << policies[0][i] << ' ';
+        myfile << policies[0][i];
         myfile << endl;
     }
     for (int i = P22; i <= PAA; i++)
@@ -698,7 +703,7 @@ int main(int argc, char const *argv[])
         }
         for (int c = 1; c < 10; c++)
             myfile << policies[c][i] << ' ';
-        myfile << policies[0][i] << ' ';
+        myfile << policies[0][i];
         if (i != PAA)
         {
             myfile << endl;

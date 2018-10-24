@@ -1,7 +1,7 @@
 SRC = main.cpp
 
 all: $(SRC)
-	  g++ --std=c++11 -O3 -o blackJack.out $(SRC)
+	g++ --std=c++11 -o blackJack.out $(SRC)
 
 debug: $(SRC)
 	  g++ -g --std=c++11 -O3 -o blackJack.out $(SRC)
